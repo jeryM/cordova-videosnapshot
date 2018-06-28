@@ -67,6 +67,12 @@ public class VideoSnapshot extends CordovaPlugin {
             snapshot(options);
             return true;
         }
+		
+		if (action.equals("snapshotByTime")) {
+            // Run async
+            snapshot(options);
+            return true;
+        }
        
         return false;
     }
@@ -155,6 +161,75 @@ public class VideoSnapshot extends CordovaPlugin {
                         Bitmap bm = retriever.getFrameAtTime(i * delta * 1000);
                         if (timestamp) {
                             drawTimestamp(bm, prefix, delta * i, textSize);
+                        }
+                        bm.compress(Bitmap.CompressFormat.JPEG, quality, out);
+                        out.flush();
+                        out.close();
+                        results.put(dest.getAbsolutePath());
+                    }
+
+                    obj.put("result", true);
+                    obj.put("snapshots", results);
+                    context.success(obj);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    Log.e("snapshot", "Exception:", ex);
+                    fail("Exception: " + ex.toString());
+                }finally {
+                    try {
+                        retriever.release();
+                    } catch (RuntimeException ex) {
+                    }
+                }
+            }
+        });
+    }
+	
+	private void snapshotByTime(final JSONObject options) {
+        final CallbackContext context = this.callbackContext;
+        this.cordova.getThreadPool().execute(new Runnable() {   
+            public void run() {
+                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                try {
+                    //int count = options.optInt("count", 1);
+                    //int countPerMinute = options.optInt("countPerMinute", 0);
+                    int quality = options.optInt("quality", 90);
+                    String source = options.optString("source", "");
+                    Boolean timestamp = options.optBoolean("timeStamp", true);
+                    String prefix = options.optString("prefix", "");
+                    int textSize = options.optInt("textSize", 48);
+					long timePoint = options.optLong("timePoint",1);
+                    
+                    if (source.isEmpty()) {
+                        throw new Exception("No source provided");
+                    }
+
+                    JSONObject obj = new JSONObject();
+                    obj.put("result", false);
+                    JSONArray results = new JSONArray();
+                    
+                    Log.i("snapshot", "Got source: " + source);
+                    Uri p = Uri.parse(source);
+                    String filename = p.getLastPathSegment();
+                    
+                    FileInputStream in = new FileInputStream(new File(p.getPath()));
+                    retriever.setDataSource(in.getFD());
+                    String tmp = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                    long duration = Long.parseLong(tmp);
+
+                    Log.i("snapshot", "duration:" + duration + " delta:" + delta);
+
+                    File storage = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                    if (timePoint<=duration) {
+                        String filename2 = filename.replace('.', '_') + "-snapshot" + timePoint + ".jpg";
+                        File dest = new File(storage, filename2);
+                        if (!storage.exists() && !storage.mkdirs()) {
+                            throw new Exception("Unable to access storage:" + storage.getPath());
+                        }
+                        FileOutputStream out = new FileOutputStream(dest);
+                        Bitmap bm = retriever.getFrameAtTime(timePoint* 1000);
+                        if (timestamp) {
+                            drawTimestamp(bm, prefix, timePoint, textSize);
                         }
                         bm.compress(Bitmap.CompressFormat.JPEG, quality, out);
                         out.flush();

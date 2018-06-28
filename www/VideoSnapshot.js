@@ -39,7 +39,11 @@ module.exports = {
 	*
 	*/	
 	snapshot: function (success, fail, options) {
-		console.log("Trying to open " + JSON.stringify(options));
+		//console.log("Trying to open " + JSON.stringify(options));
 		exec(success, fail, "VideoSnapshot", "snapshot", [options]);
+	},
+	snapshotByTime: function (success, fail, options) {
+		//console.log("Trying to open " + JSON.stringify(options));
+		exec(success, fail, "VideoSnapshot", "snapshotByTime", [options]);
 	}
 };
