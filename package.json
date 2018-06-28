@@ -1,0 +1,30 @@
+{
+  "name": "com.sebible.cordova.videosnapshot",
+  "version": "0.2.9",
+  "description": "Cordova Video Snapshot Plugin",
+  "cordova": {
+    "id": "com.sebible.cordova.videosnapshot",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeryM/cordova-videosnapshot.git"
+  },
+  "keywords": [
+    "cordova",
+    "video",
+    "snapshot",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/jeryM/cordova-videosnapshot/issues"
+  },
+  "homepage": "https://github.com/jeryM/cordova-videosnapshot#readme"
+}

@@ -217,7 +217,7 @@ public class VideoSnapshot extends CordovaPlugin {
                     String tmp = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
                     long duration = Long.parseLong(tmp);
 
-                    Log.i("snapshot", "duration:" + duration + " delta:" + delta);
+                    Log.i("snapshotByTime", "duration:" + duration + " delta:" + timePoint);
 
                     File storage = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                     if (timePoint<=duration) {
