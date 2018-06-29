@@ -216,18 +216,20 @@ public class VideoSnapshot extends CordovaPlugin {
                     retriever.setDataSource(in.getFD());
                     String tmp = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
                     long duration = Long.parseLong(tmp);
-
+                    if(timePoint>duration){
+						timePoint = duration;
+					}
                     Log.i("snapshotByTime", "duration:" + duration + " delta:" + timePoint);
 
                     File storage = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                    if (timePoint<=duration) {
+                    if (0<timePoint<=duration) {
                         String filename2 = filename.replace('.', '_') + "-snapshot" + timePoint + ".jpg";
                         File dest = new File(storage, filename2);
                         if (!storage.exists() && !storage.mkdirs()) {
                             throw new Exception("Unable to access storage:" + storage.getPath());
                         }
                         FileOutputStream out = new FileOutputStream(dest);
-                        Bitmap bm = retriever.getFrameAtTime(timePoint* 1000);
+                        Bitmap bm = retriever.getFrameAtTime(timePoint * 1000 * 1000);
                         if (timestamp) {
                             drawTimestamp(bm, prefix, timePoint, textSize);
                         }
