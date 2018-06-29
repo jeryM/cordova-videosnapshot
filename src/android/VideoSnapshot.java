@@ -70,7 +70,7 @@ public class VideoSnapshot extends CordovaPlugin {
 		
 		if (action.equals("snapshotByTime")) {
             // Run async
-            snapshot(options);
+            snapshotByTime(options);
             return true;
         }
        
