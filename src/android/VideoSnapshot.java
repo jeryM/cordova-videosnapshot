@@ -222,7 +222,7 @@ public class VideoSnapshot extends CordovaPlugin {
                     Log.i("snapshotByTime", "duration:" + duration + " delta:" + timePoint);
 
                     File storage = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                    if (0<timePoint<=duration) {
+                    if (0<timePoint && timePoint<=duration) {
                         String filename2 = filename.replace('.', '_') + "-snapshot" + timePoint + ".jpg";
                         File dest = new File(storage, filename2);
                         if (!storage.exists() && !storage.mkdirs()) {
