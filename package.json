@@ -1,6 +1,6 @@
 {
   "name": "com.sebible.cordova.videosnapshot",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "Cordova Video Snapshot Plugin",
   "cordova": {
     "id": "com.sebible.cordova.videosnapshot",
