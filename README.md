@@ -88,9 +88,9 @@ Example
     }
     
     sebible.videosnapshot.snapshot(success, fail, options2);
-	
-	`snapshotByTime`
-	let options = {
+    
+    `snapshotByTime`
+    let options = {
           source: self.currentVideo.src,
           timePoint:timePoint+4.5, //second
           timeStamp: false
@@ -106,24 +106,24 @@ Example
                 //console.log("toScreenshotTimeout");
                 self.currentVideo.style.display = "none";
                 addImg.style.display = "inline";
-
+    
                 //self.currentVideo.style.height = "0px";// 方式二,占用的空间大小和video是一样的
                 //addImg.style.height = "100%";
-
+    
               //方式三
               //addImg.style.zIndex = "1";
               //self.currentVideo.style.zIndex = "-1";
-
+    
                 addImg = null;
                 //Common.toScreenshot();
             },4000);
-
+    
             let toScreenshotTimeout2 = setTimeout( ()=>{
               clearTimeout(toScreenshotTimeout2);
               //console.log("toScreenshotTimeout2");
               Common.toScreenshot();
             },4500);
-
+    
             //Common.toScreenshot();
           }
         }, function (err) {
